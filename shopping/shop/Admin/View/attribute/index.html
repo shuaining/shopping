@@ -35,14 +35,19 @@
 <span style="float:left;line-height:30px;">
 <label>按商品类型显示：</label>
 </span>
-<select class="form-control" style="width:200px;float:left;">
+<select class="form-control" style="width:200px;float:left;" onchange="searchAttr(this.value)">
  <volist name="types" id="vo">
-        <option value="{$vo.tid}"
-        <if condition="$vo['tid'] == $tid"> selected='selected'</if>
-        >{$vo.typename}
+        <option value="{$vo.tid}" <if condition="$vo['tid'] == $tid "> selected='selected'</if> >
+		{$vo.typename}
 		</option>
+
  </volist>
 </select>
+  <script type='text/javascript'>
+      function searchAttr(tid) {
+        window.location.href = "__SLEF__/tid/"+tid;
+      }
+  </script>
 </div>
  </div>
 
@@ -52,6 +57,7 @@
       <th width="5%">编号</th>
       <th width="10%">属性名称</th>
       <th width="10%">商品类型</th>
+      <th width="10%">属性的类型</th>
       <th width="10%">属性录入方式</th>
       <th width="10%">可选值列表</th>
       <th width="15%">操作</th>
@@ -60,10 +66,11 @@
     <tr>	
       <td>{$r.aid}</td>
       <td>{$r.attr_name}</td>
+      <td>{$r.tid}</td>
       <td>{$r.attr_type}</td>
       <td>{$r.attr_input_type}</td>
       <td>{$r.attr_value}</td>   
-      <td><div class="button-group" > <button  onclick="window.location.href='__CONTROLLER__/edit/uid/{$r.uid}'" class="button border-main" id="en" type="button"><span class="icon-edit"></span> 修改</button></a> <button class="button border-red" id="delete" onclick="dele({$r.uid})"><span class="icon-trash-o"></span> 删除</button> </div></td>
+      <td><div class="button-group" > <button  onclick="window.location.href='__CONTROLLER__/edit/aid/{$r.aid}'" class="button border-main" id="en" type="button"><span class="icon-edit"></span> 修改</button></a> <button class="button border-red" id="delete" onclick="dele({$r.aid})"><span class="icon-trash-o"></span> 删除</button> </div></td>
     </tr>
 </volist>
 <tr>
@@ -75,11 +82,11 @@
   </table>
 </div>
 <script>
-function dele(uid){
+function dele(aid){
  layer.confirm('你确定要退出吗？', {
 		  btn: ['确定','取消'] //按钮
 		}, function(msg){
-				$.post("{:U('admin/User/delete')}",{'uid':uid},function(msg){		
+				$.post("{:U('admin/attribute/delete')}",{'aid':aid},function(msg){		
 					if(msg.status==1){
 						window.location.href = msg.url;
 					}else{

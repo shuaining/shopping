@@ -68,7 +68,7 @@ $(document).ready(function(){
   <a href="/shopping/shop/index.php/Admin/user/index" target="right"><h2><span class="icon-pencil-square-o"></span>用户管理</h2></a>
   <a href="/shopping/shop/index.php/Admin/category/index" target="right"><h2><span class="icon-pencil-square-o"></span>栏目管理</h2>
   <a href="/shopping/shop/index.php/Admin/type/index" target="right"> <h2><span class="icon-pencil-square-o"></span>类型管理</h2></a>
-  <a href="/shopping/shop/index.php/Admin/attribute/index" target="right"><h2><span class="icon-pencil-square-o"></span>查看属性</h2></a>
+
 
 </div>
 <script type="text/javascript">

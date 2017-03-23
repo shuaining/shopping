@@ -35,12 +35,16 @@
 <span style="float:left;line-height:30px;">
 <label>按商品类型显示：</label>
 </span>
-<select class="form-control" style="width:200px;float:left;">
- <?php if(is_array($types)): $i = 0; $__LIST__ = $types;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo["tid"]); ?>"
-        <?php if($vo['tid'] == $tid): ?>selected='selected'<?php endif; ?>
-        ><?php echo ($vo["typename"]); ?>
+<select class="form-control" style="width:200px;float:left;" onchange="searchAttr(this.value)">
+ <?php if(is_array($types)): $i = 0; $__LIST__ = $types;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo["tid"]); ?>" <?php if($vo['tid'] == $tid ): ?>selected='selected'<?php endif; ?> >
+		<?php echo ($vo["typename"]); ?>
 		</option><?php endforeach; endif; else: echo "" ;endif; ?>
 </select>
+  <script type='text/javascript'>
+      function searchAttr(tid) {
+        window.location.href = "__SLEF__/tid/"+tid;
+      }
+  </script>
 </div>
  </div>
 
@@ -50,6 +54,7 @@
       <th width="5%">编号</th>
       <th width="10%">属性名称</th>
       <th width="10%">商品类型</th>
+      <th width="10%">属性的类型</th>
       <th width="10%">属性录入方式</th>
       <th width="10%">可选值列表</th>
       <th width="15%">操作</th>
@@ -57,10 +62,11 @@
 <?php if(is_array($attrs)): $i = 0; $__LIST__ = $attrs;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$r): $mod = ($i % 2 );++$i;?><tr>	
       <td><?php echo ($r["aid"]); ?></td>
       <td><?php echo ($r["attr_name"]); ?></td>
+      <td><?php echo ($r["tid"]); ?></td>
       <td><?php echo ($r["attr_type"]); ?></td>
       <td><?php echo ($r["attr_input_type"]); ?></td>
       <td><?php echo ($r["attr_value"]); ?></td>   
-      <td><div class="button-group" > <button  onclick="window.location.href='/shopping/shop/index.php/Admin/Attribute/edit/uid/<?php echo ($r["uid"]); ?>'" class="button border-main" id="en" type="button"><span class="icon-edit"></span> 修改</button></a> <button class="button border-red" id="delete" onclick="dele(<?php echo ($r["uid"]); ?>)"><span class="icon-trash-o"></span> 删除</button> </div></td>
+      <td><div class="button-group" > <button  onclick="window.location.href='/shopping/shop/index.php/Admin/Attribute/edit/aid/<?php echo ($r["aid"]); ?>'" class="button border-main" id="en" type="button"><span class="icon-edit"></span> 修改</button></a> <button class="button border-red" id="delete" onclick="dele(<?php echo ($r["aid"]); ?>)"><span class="icon-trash-o"></span> 删除</button> </div></td>
     </tr><?php endforeach; endif; else: echo "" ;endif; ?>
 <tr>
    <td>
@@ -71,11 +77,11 @@
   </table>
 </div>
 <script>
-function dele(uid){
+function dele(aid){
  layer.confirm('你确定要退出吗？', {
 		  btn: ['确定','取消'] //按钮
 		}, function(msg){
-				$.post("<?php echo U('admin/User/delete');?>",{'uid':uid},function(msg){		
+				$.post("<?php echo U('admin/attribute/delete');?>",{'aid':aid},function(msg){		
 					if(msg.status==1){
 						window.location.href = msg.url;
 					}else{

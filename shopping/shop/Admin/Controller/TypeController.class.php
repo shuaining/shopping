@@ -7,7 +7,7 @@ class TypeController extends BaseController{
 	public function index(){
 		$t=M('type');
 		$count=$t->count();
-		$Page=new \Think\Page($count,2);
+		$Page=new \Think\Page($count,6);
 		$Page->setConfig('prev','上一页');
 		$Page->setConfig('next','下一页');
 		$show=$Page->show();

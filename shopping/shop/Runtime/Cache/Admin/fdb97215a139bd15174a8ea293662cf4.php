@@ -52,9 +52,9 @@
             <label>属性是否可选：</label>
           </div>
           <div class="field" style="padding-top:8px;"> 
-            唯一属性：<input  name="attr_value" type="radio" value="0" />
-            单选属性：<input  name="attr_value" type="radio" value="1"/>
-            多选属性：<input  name="attr_value" type="radio" value="2"/>          
+            <input  name="attr_type" type="radio" value="0" />唯一属性
+            <input  name="attr_type" type="radio" value="1"/> 单选属性
+            <input  name="attr_type" type="radio" value="2"/> 多选属性         
           </div>
         </div>
 	  <div class="form-group">
@@ -62,11 +62,20 @@
             <label>属性值录入方式:</label>
           </div> 
           <div class="field" style="padding-top:8px;"> 
-            手工录入：    <input name="attr_input_type" type="radio" value="0"/>
-            从下拉框录入：<input name="attr_input_type" type="radio" value="1"/>
-            多行文本：    <input name="attr_input_type" type="radio" value="2"/>          
+               <input name="attr_input_type" type="radio" value="0"/>  手工录入
+               <input name="attr_input_type" type="radio" value="1"/> 从下拉框录入
+               <input name="attr_input_type" type="radio" value="2"/> 多行文本          
           </div>
         </div>
+	 <div class="form-group">
+        <div class="label">
+          <label>可选值列表：</label>
+        </div>
+        <div class="field">
+          <textarea class="input" name="attr_value" id="attr_value" style=" height:90px;"></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
       <div class="form-group">
         <div class="label">
           <label></label>
@@ -83,9 +92,9 @@
     $('#aa').click(function(){
      var user = {
             attr_name:$("#attr_name").val(),
-            attr_type:$("#attr_type").val(),
-            attr_input_type:$("#input[name='attr_input_type']:checked").val(),
-            attr_value:$("#input[name='attr_value']:checked").val(),
+            attr_type:$("input[name='attr_type']:checked").val(),
+            attr_input_type:$("input[name='attr_input_type']:checked").val(),
+            attr_value:$("#attr_value").val(),
 			tid:$('#tid').val(),
 	 };
      var url="<?php echo U('admin/attribute/add');?>";

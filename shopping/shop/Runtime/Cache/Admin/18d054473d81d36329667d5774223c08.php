@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php if (!defined('THINK_PATH')) exit();?><!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="renderer" content="webkit">
     <title>后台管理中心</title>  
-<link rel="stylesheet" type="text/css" href="<php>echo Admin_CSS</php>pintuer.css" />
-<link rel="stylesheet" type="text/css" href="<php>echo Admin_CSS</php>admin.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo Admin_CSS ?>pintuer.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo Admin_CSS ?>admin.css" />
 
 <!--【Jquery】-->
-<script src="<php>echo Jquery</php>"></script>
+<script src="<?php echo Jquery ?>"></script>
 <!--【Jquery结束】-->
 <!--【layer开始】-->
-<link rel="stylesheet" type="text/css" href="<php>echo LayerCss</php>" />
-<script src="<php>echo LayerJs</php>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo LayerCss ?>" />
+<script src="<?php echo LayerJs ?>"></script>
 <!--【layer结束】-->
 
 </head>
@@ -26,12 +26,13 @@
   <div class="panel-head"><strong><span class="icon-pencil-square-o"></span> 网站信息</strong></div>
   <div class="body-content">
     <form method="post" class="form-x" action="">
+	<input type="hidden" name="aid" id="aid" value="<?php echo ($attrs["aid"]); ?>" />
       <div class="form-group">
         <div class="label">
           <label>属性名称：</label>
         </div>
         <div class="field">
-          <input type="text" class="input" id="attr_name" value="" />
+          <input type="text" class="input" id="attr_name" value="<?php echo ($attrs["attr_name"]); ?>" />
           <div class="tips"></div>
         </div>
       </div>
@@ -40,11 +41,9 @@
             <label>所属商品类型：</label>
           </div>
           <div class="field">
-	<select name="tid" id="tid" class="input w50" style="width:200px;">
-		  <option value="0">请选择类型</option>
-	      <volist name="types" id="vo">
-            <option value="{$vo.tid}">{$vo.typename}</option>
-          </volist>
+	<select name="tid" id="tid" class="input w50" style="width:200px;">		 
+	      <?php if(is_array($types)): $i = 0; $__LIST__ = $types;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo["tid"]); ?>" <?php if($vo['tid'] == $attrs['tid'] ): ?>selected='selected'<?php endif; ?>>
+			<?php echo ($vo["typename"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
 	</select>
             <div class="tips"></div>
           </div>
@@ -54,9 +53,9 @@
             <label>属性是否可选：</label>
           </div>
           <div class="field" style="padding-top:8px;"> 
-            <input  name="attr_type" type="radio" value="0" />唯一属性
-            <input  name="attr_type" type="radio" value="1"/> 单选属性
-            <input  name="attr_type" type="radio" value="2"/> 多选属性         
+            唯一属性：<input  name="attr_type" type="radio" value="0"  <?php if($attrs["attr_type"] == 0): ?>checked='checked'<?php endif; ?> />
+            单选属性：<input  name="attr_type" type="radio" value="1"  <?php if($attrs["attr_type"] == 1): ?>checked='checked'<?php endif; ?> />
+            多选属性：<input  name="attr_type" type="radio" value="2"  <?php if($attrs["attr_type"] == 2): ?>checked='checked'<?php endif; ?> />          
           </div>
         </div>
 	  <div class="form-group">
@@ -64,9 +63,9 @@
             <label>属性值录入方式:</label>
           </div> 
           <div class="field" style="padding-top:8px;"> 
-               <input name="attr_input_type" type="radio" value="0"/>  手工录入
-               <input name="attr_input_type" type="radio" value="1"/> 从下拉框录入
-               <input name="attr_input_type" type="radio" value="2"/> 多行文本          
+            手工录入：    <input name="attr_input_type" type="radio" value="0" <?php if($attr_input_type == 0): ?>checked='checked'<?php endif; ?> />
+            从下拉框录入：<input name="attr_input_type" type="radio" value="1" <?php if($attr_input_type == 1): ?>checked='checked'<?php endif; ?> />
+            多行文本：    <input name="attr_input_type" type="radio" value="2" <?php if($attr_input_type == 2): ?>checked='checked'<?php endif; ?> />          
           </div>
         </div>
 	 <div class="form-group">
@@ -93,13 +92,14 @@
  $(function(){
     $('#aa').click(function(){
      var user = {
+	        aid:$('#aid').val(),
             attr_name:$("#attr_name").val(),
             attr_type:$("input[name='attr_type']:checked").val(),
             attr_input_type:$("input[name='attr_input_type']:checked").val(),
             attr_value:$("#attr_value").val(),
 			tid:$('#tid').val(),
 	 };
-     var url="{:U('admin/attribute/add')}";
+     var url="<?php echo U('admin/attribute/edit');?>";
       $.post(url,user,function(msg){
 			if(msg.status==1){
 			  window.location.href = msg.url;
